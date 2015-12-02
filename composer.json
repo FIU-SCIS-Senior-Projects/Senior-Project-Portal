@@ -1,0 +1,5 @@
+ {
+     "require": {
+        "oauth-io/oauth": "0.3.2"
+    }
+}
