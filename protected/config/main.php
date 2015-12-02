@@ -58,12 +58,10 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=seniorportaldb',
 			'emulatePrepare' => true,
-			'username' => 'vjfuser',
-			// 'username' => 'vjfuser', // for the database in sp-portal
-			// 'username' => 'jobfairdb',
-			'password' => 's3n10rpr0j3ct',
-			// 'password' => 's3n10rpr0j3ct', // for the database in sp-portal
-			// 'password' => 'E!qazxsw2',
+			'username' => 'seniorportaluser',
+			// 'username' => 'seniorportaluser', // for the database in sp-portal
+			'password' => 'sp123456',
+			// 'password' => 'sp123456', // for the database in sp-portal
 			'charset' => 'utf8',
 		),
             
