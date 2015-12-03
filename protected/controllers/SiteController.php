@@ -88,44 +88,25 @@ class SiteController extends Controller
                             }
                         }
                         else if($existingUser != null && $existingUser->isADefaultUser())
-                        {
+                        { 
+                            $existingUser->password = $hasher->encode($password);
+                            $existingUser->save(false);
+                            $duration=$model->rememberMe ? 3600*24*30 : 0; // 30 days
                             $identity = new UserIdentity($email, $password);
-                            $googleEmail = $this->actionGoogleAuth();       
-                            if($googleEmail == $email)
-                            {
-                                $existingUser->password = $hasher->encode($password);
-                                $existingUser->save(false);
-                                $duration=$model->rememberMe ? 3600*24*30 : 0; // 30 days
-                                Yii::app()->user->login($identity, $duration);
-                                $this->redirect('/SeniorPortal/index.php/site/home');
-                            }
-                            else
-                            {
-                                $identity->errorCode= UserIdentity::ERROR_USERNAME_INVALID;
-                                $this->redirect('/SeniorPortal/index.php');
-                            }
+                            Yii::app()->user->login($identity, $duration);
+                            $this->actionGoogleAuth();
                         }
                         else 
-                        {
-                            $identity = new UserIdentity($email, $password);
-                            $googleEmail = $this->actionGoogleAuth();                       
-                            if($googleEmail == $email)
-                            {
-                                $user = new User();   
-                                $user->email = $email;
-                                $user->usertype = 'default';
-                                $user->password = $hasher->encode($password);
-                                $user->activated = 1;
-                                $user->save(false);
-                                $duration=$model->rememberMe ? 3600*24*30 : 0; // 30 days
-                                Yii::app()->user->login($identity, $duration);
-                                $this->redirect('/SeniorPortal/index.php/site/home');
-                            }
-                            else
-                            {
-                                $identity->errorCode=UserIdentity::ERROR_USERNAME_INVALID;
-                                $this->redirect('/SeniorPortal/index.php');
-                            }
+                        {                                   
+                            $user = new User();   
+                            $user->email = $email;
+                            $user->usertype = 'default';
+                            $user->password = $hasher->encode($password);
+                            $user->save(false);
+                            $duration=$model->rememberMe ? 3600*24*30 : 0; // 30 days
+                            $identity = new UserIdentity($email, $password); 
+                            Yii::app()->user->login($identity, $duration);   
+                            $this->actionGoogleAuth();
                         }
                         if($model->validate())
                             $this->redirect('/SeniorPortal/index.php');
@@ -192,11 +173,26 @@ class SiteController extends Controller
             // Something went wrong...
             $this->redirect('/SeniorPortal/index.php');
         }
-        // Store email if user authentication was successful
-        $session = Yii::app()->session;
-        $session->open();       
-        $session['userEmail'] = $email;
-        return;
+        
+        // After data is recieved, ensure that Google account email matches the email
+        // provided on login form. If not, log the user out. If the user account is not currently
+        // marked as "activated" then change this value in the database.
+        if(Yii::app()->user->isGuest)
+        {
+            $this->redirect('/SeniorPortal/index.php/site/login');
+        }
+        else if(Yii::app()->user->name != $email)
+        {
+            $this->actionLogout();
+        }
+        else if(Yii::app()->user->name == $email && User::model()->getCurrentUser()->activated == 0)
+        {
+            $currentUser = User::model()->findByAttributes(array('email' => Yii::app()->user->name));
+            $currentUser->activated = 1;
+            $currentUser->save(false);
+        }
+        
+        $this->redirect('/SeniorPortal/index.php');
     }
     
     // Create oauth object, redirect user to Google for authentication,

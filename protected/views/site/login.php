@@ -9,11 +9,6 @@ $this->breadcrumbs=array(
 );
 if(!Yii::app()->user->isGuest)
     $this->redirect('/SeniorPortal/index.php');
-$hasher = new PasswordHash();
-$myhash = $hasher->encode('girls');
-var_dump($myhash);
-$mypass = $hasher->decode($myhash);
-var_dump($mypass);
 ?>
 
 <h2>Login</h2>
@@ -58,7 +53,22 @@ var_dump($mypass);
     
 </div><!-- form -->
 <br>
-<div style="float: right">
+
+<style>
+#carousel{
+    display: block;
+}
+
+@media (max-width: 640px) 
+{
+    #carousel
+    {
+        display: none;
+    }
+}
+</style>
+
+<div id="carousel" style="float: right">
     <h4>Feel free to preview a few of our sites:</h4>
 <br>
 <?php

@@ -1,15 +1,17 @@
 <?php
-
+// Redirect user appropriately when they access the site index
 if(Yii::app()->user->isGuest) {
     $this->redirect('/SeniorPortal/index.php/site/login');
 }
-else if(User::model()->getCurrentUser()->isAAdmin()) {
+else if(User::model()->getCurrentUser() != null && User::model()->getCurrentUser()->isAAdmin()) {
     $this->redirect('/SeniorPortal/index.php/admin/admin');
 }
-else if(User::model()->getCurrentUser()->isADefaultUser()) {
+else if(User::model()->getCurrentUser() != null && User::model()->getCurrentUser()->isADefaultUser()) {
     $this->redirect('/SeniorPortal/index.php/site/home');
 }
-echo Yii::app()->user->name;
+else {
+    $this->redirect('/SeniorPortal/index.php');
+}
 ?>
 
-<h1>This is the index</h1>
+<h1>Index</h1>

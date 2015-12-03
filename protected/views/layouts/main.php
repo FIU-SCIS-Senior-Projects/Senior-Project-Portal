@@ -61,9 +61,9 @@
                                             
                                             
                                             array('label' => '(' . Yii::app()->user->name . ')', 'url' => '#', 'visible' => !Yii::app()->user->isGuest, 'items' => array(
-                                                    array('label' => 'Home', 'url' => array('/SeniorPortal'), 'visible' => !Yii::app()->user->isGuest), 
+                                                    array('label' => 'Home', 'url' => array('/'), 'visible' => !Yii::app()->user->isGuest), 
                                                     array('label' => 'Logout (' . Yii::app()->user->name . ')', 'url' => array('/site/logout'), 'visible' => !Yii::app()->user->isGuest),
-                                                    array('label' => 'Login', 'url' => array('/SeniorPortal'), 'visible' => false),
+                                                    array('label' => 'Login', 'url' => array('/'), 'visible' => false),
                                                 )
                                             ),
                                         ),
@@ -98,6 +98,8 @@
 
                                 echo "</div>";
                             }
+                            else
+                                echo $content;
                         }
                         else
                             echo $content;

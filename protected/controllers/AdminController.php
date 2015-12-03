@@ -51,7 +51,7 @@ class AdminController extends Controller
             {
                 $error .= "Site name must be longer than 0 characters<br />";
             }
-            if (strlen($name) == 0)
+            if (strlen($url) == 0)
             {
                 $error .= "Url must be longer than 0 characters<br />";
             }
