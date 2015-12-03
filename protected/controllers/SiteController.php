@@ -185,7 +185,7 @@ class SiteController extends Controller
         {
             $this->actionLogout();
         }
-        else if(Yii::app()->user->name == $email && User::model()->getCurrentUser()->activated == 0)
+        else if(Yii::app()->user->name == $email && User::model()->getCurrentUser()->activated == null)
         {
             $currentUser = User::model()->findByAttributes(array('email' => Yii::app()->user->name));
             $currentUser->activated = 1;
