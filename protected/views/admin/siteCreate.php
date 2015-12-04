@@ -1,5 +1,5 @@
 <?php
-/* @var $this SiteController */
+/* @var $this AdminController */
 /* @var $model PortalSites */
 /* @var $form CActiveForm */
 ?>

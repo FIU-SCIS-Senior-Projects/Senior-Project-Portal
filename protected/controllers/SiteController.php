@@ -48,10 +48,6 @@ class SiteController extends Controller
 	}
 
 	/**
-	 * Displays the contact page
-	 */
-
-	/**
 	 * Displays the login page
 	 */
 	public function actionLogin()
@@ -74,7 +70,12 @@ class SiteController extends Controller
                         
                         $hasher = new PasswordHash();
                         
+                        // Check if user exists with same email
                         $existingUser = User::model()->findByAttributes(array('email' => $email));
+                        // If user found is an admin, check their password and log them in if correct
+                        // password was provided. If user found is a default (FIU) user, log them in and
+                        // authenticate them with Google. If no user is found, create a new account and
+                        // authenticate them with Google.
                         if($existingUser != null && $existingUser->isAAdmin())
                         {
                             $identity = new UserIdentity($email, $password);
@@ -86,7 +87,7 @@ class SiteController extends Controller
                                 Yii::app()->user->login($identity, $duration);
                                 $this->redirect('/SeniorPortal/index.php/admin/admin');
                             }
-                        }
+                        } 
                         else if($existingUser != null && $existingUser->isADefaultUser())
                         { 
                             $existingUser->password = $hasher->encode($password);
@@ -108,7 +109,7 @@ class SiteController extends Controller
                             Yii::app()->user->login($identity, $duration);   
                             $this->actionGoogleAuth();
                         }
-                        if($model->validate())
+                        if($model->validate()) // If no errors, redirect to index
                             $this->redirect('/SeniorPortal/index.php');
 		}
 		// display the login form
@@ -124,25 +125,9 @@ class SiteController extends Controller
 		$this->redirect(Yii::app()->homeUrl);
 	}
         
-        public function actionRegisterTest()
-        {
-            $hasher = new PasswordHash();
-            $duplicateUser = User::model()->findByAttributes(array('email' => 'student@yahoo.com'));
-            if($duplicateUser != null)
-            {
-                $duplicateUser->password = $hasher->encode('girls');
-                $duplicateUser->save(false);
-            }
-            else {
-                $user = new User();   
-                $user->email = 'guy@yahoo.com';
-                $user->usertype = 'default';
-                $user->password = $hasher->encode('stuff');
-                $user->save(false);   
-            }
-           
-        }
-        
+        /*
+         * Authenticates user with Google
+         */
         public function actionGoogleAuth() {
         // Edit by Christopher Jones. Refer to the Google Developers Console
         // site https://console.developers.google.com/project. OAuth Daemon
@@ -224,15 +209,18 @@ class SiteController extends Controller
     }
     
         
-        
-        public function actionHome()
-	{
-            $model = new PortalSites('search');
-            $model->unsetAttributes();  // clear any default values
-            if (isset($_GET['PortalSites']))
-                $model->attributes = $_GET['PortalSites'];
+    /*
+     * Displays the home page. Supplies model instance necessary for displaying
+     * Senior Project sites from database.
+     */    
+    public function actionHome()
+    {
+        $model = new PortalSites('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['PortalSites']))
+            $model->attributes = $_GET['PortalSites'];
 
-            $this->render('home', array('model' => $model));
-	}
+        $this->render('home', array('model' => $model));
+    }
      
 }

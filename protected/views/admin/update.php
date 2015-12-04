@@ -1,7 +1,10 @@
-<?php if(!User::model()->getCurrentUser()->isAAdmin())
-        {
-            $this->redirect('/SeniorPortal/index.php');
-        }
+<?php 
+/* @var $this AdminController */
+/* @var $model PortalSites */
+/* @var $form TbActiveForm */
+if(!User::model()->getCurrentUser()->isAAdmin()){
+        $this->redirect('/SeniorPortal/index.php');
+    }
  ?>
 
 <script>

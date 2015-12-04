@@ -1,6 +1,6 @@
 <?php
 /* @var $this SiteController */
-
+/* @var $model PortalSites */
 $this->breadcrumbs=array(
 	'Combined Login'=>array('/combinedLogin'),
 	'Home',
@@ -32,8 +32,8 @@ $this->breadcrumbs=array(
                 'items' => array(
                     array('image' => '/SeniorPortal/images/spt_images/vjf.JPG', 'link' => 'http://vjf-dev.cis.fiu.edu', 'label' => 'Virtual Job Fair', 'caption' => 'Provides an efficient way to make a connection between employers and job seeking students. Provides easy access to job postings, and supplies other reseources such as the ability to upload a video resume.'),
                     array('image' => '/SeniorPortal/images/spt_images/cp.JPG', 'link' => 'http://cp-dev.cis.fiu.edu', 'label' => 'Collaborative Platform', 'caption' => 'Provides students an effective way to communicate with mentors and project team members.'),
-                    array('image' => '/SeniorPortal/images/spt_images/mj.JPG', 'link' => 'http://mj.cis.fiu.edu/#login', 'label' => 'Mobile Judge', 'caption' => 'Mobile application which allows senior project judges to provide student evaluations.'),
-                    array('image' => '/SeniorPortal/images/spt_images/spw.JPG', 'link' => 'http://spws.cis.fiu.edu/Senior-Project-Web-Site-Ver-5/login/fiu_oauth2', 'label' => 'Senior Project Website', 'caption' => 'An important tool allowing users to propose mew projects, and explore/join ongoing projects.'),
+                    array('image' => '/SeniorPortal/images/spt_images/mj.JPG', 'link' => 'http://mj.cis.fiu.edu', 'label' => 'Mobile Judge', 'caption' => 'Mobile application which allows senior project judges to provide student evaluations.'),
+                    array('image' => '/SeniorPortal/images/spt_images/spw.JPG', 'link' => 'http://spws.cis.fiu.edu', 'label' => 'Senior Project Website', 'caption' => 'An important tool allowing users to propose mew projects, and explore/join ongoing projects.'),
                 ),
                 'htmlOptions' => array('style'=>'width: 800px'),
             ));
@@ -52,7 +52,7 @@ $this->breadcrumbs=array(
     foreach($sites as $s)
             {
                 echo TbHtml::linkbutton($s['name'],
-                array('color' => TbHtml::BUTTON_COLOR_PRIMARY, 'size' => TbHtml::BUTTON_SIZE_LARGE, 'url' => $s['url']));
+                array('color' => TbHtml::BUTTON_COLOR_PRIMARY, 'size' => TbHtml::BUTTON_SIZE_LARGE, 'url' => $s['url'], 'target' => '_blank'));
                 echo '<br><br>';
             }
     ?>
@@ -60,14 +60,17 @@ $this->breadcrumbs=array(
 </div>
 
 </div>
-    
+
+
 <script type="text/javascript">
 
         // Wait for the page to load first
         $(document).ready(function(){
-          
+          // For every link which begins with http://cp-dev.cis.fiu.edu or
+          // http://vjf-dev.cis.fiu.edu, attempt to log the user in with the same
+          // credentials of the current logged in user on the portal site
           $('a[href^="http://cp-dev.cis.fiu.edu"]').click(function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Stop default hyperlink action
                 my_form=document.createElement('FORM');
                 my_form.method='POST';
                 my_form.target='_blank';
@@ -89,7 +92,7 @@ $this->breadcrumbs=array(
                 my_form.submit();
           });
           $('a[href^="http://vjf-dev.cis.fiu.edu"]').click(function(event) {
-                event.preventDefault();
+                event.preventDefault(); // Stop default hyperlink action
                 my_form=document.createElement('FORM');
                 my_form.method='POST';
                 my_form.target='_blank';
@@ -110,5 +113,6 @@ $this->breadcrumbs=array(
                 document.body.appendChild(my_form);
                 my_form.submit();
           });
+          $('a[href^="http://spws.cis.fiu.edu"]').attr('href', 'http://spws.cis.fiu.edu/Senior-Project-Web-Site-Ver-5/login/fiu_oauth2');
         });
     </script>

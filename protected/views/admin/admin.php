@@ -1,10 +1,13 @@
-<h2>Manage Site List</h2>
-
 <?php 
+/* @var $this AdminController */
+/* @var $model PortalSites */
+
  if(!User::model()->getCurrentUser()->isAAdmin()) {
      $this->redirect('/SeniorPortal/index.php/');
  }
  ?>
+
+<h2>Manage Site List</h2>
 
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'striped bordered condensed well',

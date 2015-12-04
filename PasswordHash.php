@@ -1,6 +1,9 @@
 <?php
 
-
+/*
+ * Provides the ability to encrypt and decrypt any password provided through
+ * usage of 256-bit MCRYPT encryption and a specific encryption key
+ */
 class PasswordHash {
 	var $skey = " FIUSP2015 ";  // String to be encrypted
 	
@@ -22,7 +25,11 @@ class PasswordHash {
             }
             return base64_decode($data);
         }
-
+        
+        /*
+         *  Encrypts provided string
+         *  @param String $value the string to be encrypted
+         */
         public function encode($value){ 
             if(!$value){return false;}
             $text = $value;
@@ -31,7 +38,11 @@ class PasswordHash {
             $crypttext = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $this->skey, $text, MCRYPT_MODE_ECB, $iv);
             return trim($this->safe_b64encode($crypttext)); 
         }
-
+        
+        /*
+         *  Decrypts provided string
+         *  @param String $value the string to be encrypted
+         */
         public function decode($value){
             if(!$value){return false;}
             $crypttext = $this->safe_b64decode($value); 
@@ -41,6 +52,12 @@ class PasswordHash {
             return trim($decrypttext);
         }
         
+        /*
+         *  Compares encrypted password to a non-encrypted password
+         *  @param String $storedHash encrypted password (hash)
+         *  @param String $password non-encrypted password
+         *  @return true if encrypted password matches non-encrypred password, false if not
+         */
         public function verifyPassword($storedHash, $password) {
             return $this->decode($storedHash) == $password;
         }

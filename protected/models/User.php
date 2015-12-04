@@ -120,9 +120,4 @@ class User extends CActiveRecord
             return $user;
         }
         
-        public function validatePassword($password)
-        {
-            $hasher = new PasswordHash(8, false);
-            return $hasher->CheckPassword($password, $this->password);
-        }
 }

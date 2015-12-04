@@ -1,5 +1,5 @@
 <?php
-// Redirect user appropriately when they access the site index
+// Redirect user appropriately when user reaches the site index
 if(Yii::app()->user->isGuest) {
     $this->redirect('/SeniorPortal/index.php/site/login');
 }
@@ -14,4 +14,4 @@ else {
 }
 ?>
 
-<h1>Index</h1>
+

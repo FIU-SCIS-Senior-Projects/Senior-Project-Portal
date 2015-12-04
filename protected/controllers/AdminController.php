@@ -2,11 +2,18 @@
 
 class AdminController extends Controller
 {
+        /*
+         * Displays index
+         */
 	public function actionIndex()
 	{
-		$this->render('index');
+            $this->render('index');
 	}
         
+        /*
+         * Displays administrator home page. Provides appropriate model
+         * necessary for viewing list of Senior Project sites from database
+         */
         public function actionAdmin()
         {
             $model = new PortalSites('search');
@@ -17,6 +24,10 @@ class AdminController extends Controller
             $this->render('admin', array('model' => $model));
         }
         
+        /*
+         * Adds a new site to PortalSites table, or renders page allowing admin
+         * user to enter information for a new site
+         */
         public function actionAddSite()
         {
             $model = new PortalSites;
@@ -25,9 +36,6 @@ class AdminController extends Controller
             {
                 $user = $_POST['PortalSites'];
                 
-                //$this->render('siteCreate');
-                
-
                 $model->attributes = $_POST['PortalSites'];
 
                 //Save site into database. 
@@ -39,6 +47,9 @@ class AdminController extends Controller
             $this->render('siteCreate', array('model' => $model, 'error' => $error));
         }
         
+        /*
+         * Verify site url and site name provided from the Add Site form
+         */
         public function actionVerifySiteCreate()
         {
             $user = $_POST['PortalSites'];
@@ -75,17 +86,12 @@ class AdminController extends Controller
             {
                 $model = new PortalSites;
 
-                // Uncomment the following line if AJAX validation is needed
-                // $this->performAjaxValidation($model);
-
                 if (isset($_POST['PortalSites']))
                 {
                     $model = $_POST['PortalSites'];
 
                     $this->actionAddSite();
                 }
-                
-                //$this->render('siteCreate', array('model' => $model));
             }
         }
         

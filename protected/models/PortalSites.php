@@ -105,10 +105,8 @@ class PortalSites extends CActiveRecord
                 // Delete current row
                 $this->delete();
             }
-            
             catch(Exception $e)
             {
-                
             }
         }
         

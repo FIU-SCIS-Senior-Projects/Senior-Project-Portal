@@ -1,4 +1,3 @@
-
 <?php
 /* @var $this SiteController */
 /* @var $model LoginForm */
@@ -49,24 +48,10 @@ if(!Yii::app()->user->isGuest)
 	</div>
 
 <?php $this->endWidget(); ?>
-    <a href="http://localhost/SeniorPortal/index.php/site/fiuAuth">Sign In With Google</a>
     
 </div><!-- form -->
 <br>
 
-<style>
-#carousel{
-    display: block;
-}
-
-@media (max-width: 640px) 
-{
-    #carousel
-    {
-        display: none;
-    }
-}
-</style>
 
 <div id="carousel" style="float: right">
     <h4>Feel free to preview a few of our sites:</h4>
@@ -84,3 +69,4 @@ $this->beginWidget('bootstrap.widgets.TbCarousel', array(
             $this->endWidget();
 ?>
 </div>
+
