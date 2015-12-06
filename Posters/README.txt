@@ -1,0 +1,1 @@
+In this folder you will find the posters for the Senior Project Portal project new and previous versions.

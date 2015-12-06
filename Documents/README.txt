@@ -1,0 +1,1 @@
+In this folder you will find new and previous documentation for the Senior Project Portal project.
